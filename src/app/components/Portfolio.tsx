@@ -18,9 +18,11 @@ interface CodeLine {
   content: string;
 }
 
-const CodeLine = ({ line, currentLine, onHover }: CodeLineProps) => (
+const CodeLine = ({ line, currentLine, onHover, visible = false }: CodeLineProps & { visible?: boolean }) => (
   <pre
-    className={`${currentLine === line.number ? "bg-primary/20" : ""}`}
+    className={`${currentLine === line.number ? "bg-primary/20" : ""} transition-opacity duration-100 ${
+      visible ? "opacity-100" : "opacity-0"
+    }`}
     onMouseEnter={() => onHover(line.number)}
   >
     <span className="line-number">{line.number.toString()}</span>
@@ -32,6 +34,7 @@ export default function Component() {
   const [theme, setTheme] = useState("light");
   const [currentLine, setCurrentLine] = useState(1);
   const [codeLines, setCodeLines] = useState<CodeLine[]>([]);
+  const [visibleLines, setVisibleLines] = useState<number>(0);
 
   useEffect(() => {
     const code = `
@@ -75,6 +78,18 @@ console.log(developer)
       }))
     );
   }, []);
+
+  useEffect(() => {
+    if (codeLines.length === 0) return;
+    
+    const timeout = setTimeout(() => {
+      if (visibleLines < codeLines.length) {
+        setVisibleLines(prev => prev + 1);
+      }
+    }, 70); // Adjust speed here (lower = faster)
+
+    return () => clearTimeout(timeout);
+  }, [visibleLines, codeLines.length]);
 
   useEffect(() => {
     // Apply dark mode class to html element
@@ -142,6 +157,7 @@ console.log(developer)
                 line={line}
                 currentLine={currentLine}
                 onHover={setCurrentLine}
+                visible={line.number <= visibleLines}
               />
             ))}
           </div>
