@@ -6,12 +6,12 @@ export default {
   theme: {
     extend: {
       textColor: {
-        base: "var(--foreground)",
-        muted: "var(--muted)",
-        "muted-foreground": "var(--muted-foreground)",
+        base: "rgb(var(--foreground) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
+        "muted-foreground": "rgb(var(--muted-foreground) / <alpha-value>)",
       },
       backgroundColor: {
-        base: "var(--background)",
+        base: "rgb(var(--background) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
         primary: "rgb(var(--primary) / <alpha-value>)",
       },

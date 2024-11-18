@@ -102,7 +102,7 @@ console.log(developer)
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 bg-base transition-colors duration-200">
       <header className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Rayan Elg</h1>
         <Button variant="ghost" size="icon" onClick={toggleTheme}>
@@ -135,7 +135,7 @@ console.log(developer)
           </div>
         </div>
         <div className="code-window">
-          <div className="code-content overflow-y-auto h-[500px]">
+          <div className="code-content overflow-y-auto">
             {codeLines.map((line) => (
               <CodeLine
                 key={line.number}

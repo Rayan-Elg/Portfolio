@@ -20,11 +20,11 @@
   }
 
   html {
-    @apply min-h-screen;
+    @apply min-h-screen bg-base text-base;
   }
 
   body {
-    @apply bg-base text-base min-h-screen;
+    @apply min-h-screen bg-base text-base transition-colors duration-200;
   }
 }
 
@@ -46,7 +46,7 @@
   }
 
   .line-number {
-    @apply text-muted mr-4 select-none w-8 inline-block text-right;
+    @apply text-slate-400 dark:text-slate-500 mr-4 select-none w-8 inline-block text-right;
   }
 
   .keyword {
