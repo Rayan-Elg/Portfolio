@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/app/components/ui/button";
-import { Github, Linkedin, Mail, Moon, Sun } from 'lucide-react';
+import { Github, Linkedin, Mail, Moon, Sun, Terminal, Play } from 'lucide-react'; // Add these imports
 import { useEffect, useState } from "react";
 
 interface CodeLineProps {
@@ -35,6 +35,48 @@ export default function Component() {
   const [currentLine, setCurrentLine] = useState(1);
   const [codeLines, setCodeLines] = useState<CodeLine[]>([]);
   const [visibleLines, setVisibleLines] = useState<number>(0);
+  const [isExecuting, setIsExecuting] = useState(false);
+  const [output, setOutput] = useState<string>("");
+  const [showCursor, setShowCursor] = useState(true);
+
+  // Add cursor blink effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShowCursor((prev) => !prev);
+    }, 530);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Simulate code execution
+  const executeCode = () => {
+    setIsExecuting(true);
+    setOutput("");
+    const result = {
+      name: 'Rayan Elg',
+      title: 'Full Stack Developer',
+      skills: ['JavaScript', 'React', 'Node.js', 'Python', 'CSS', 'HTML'],
+      projects: [
+        { name: 'Project A', tech: 'React' },
+        { name: 'Project B', tech: 'Node.js' },
+        { name: 'Project C', tech: 'Python' }
+      ],
+      contact: 'rayan.elg@example.com'
+    };
+    
+    // Format the output with console.log style
+    const outputStr = `> console.log(developer)\n${JSON.stringify(result, null, 2)}`;
+    
+    let i = 0;
+    const typeInterval = setInterval(() => {
+      if (i < outputStr.length) {
+        setOutput(prev => prev + outputStr[i]);
+        i++;
+      } else {
+        clearInterval(typeInterval);
+        setIsExecuting(false);
+      }
+    }, 10);
+  };
 
   useEffect(() => {
     const code = `
@@ -147,20 +189,40 @@ console.log(developer)
             <Button variant="outline" size="icon" onClick={handleMailClick}>
               <Mail className="h-4 w-4" />
             </Button>
+            <Button variant="outline" size="icon" onClick={executeCode} disabled={isExecuting}>
+              <Play className="h-4 w-4" />
+            </Button>
           </div>
         </div>
-        <div className="code-window">
-          <div className="code-content overflow-y-auto">
-            {codeLines.map((line) => (
-              <CodeLine
-                key={line.number}
-                line={line}
-                currentLine={currentLine}
-                onHover={setCurrentLine}
-                visible={line.number <= visibleLines}
-              />
-            ))}
+        <div className="flex flex-col gap-4">
+          <div className="code-window">
+            <div className="code-header flex items-center justify-between px-4 py-2 border-b border-muted/20">
+              <span className="text-sm opacity-70">script.ts</span>
+              {showCursor && <span className="animate-blink">|</span>}
+            </div>
+            <div className="code-content overflow-y-auto">
+              {codeLines.map((line) => (
+                <CodeLine
+                  key={line.number}
+                  line={line}
+                  currentLine={currentLine}
+                  onHover={setCurrentLine}
+                  visible={line.number <= visibleLines}
+                />
+              ))}
+            </div>
           </div>
+          {output && (
+            <div className="code-window">
+              <div className="code-header flex items-center justify-between px-4 py-2 border-b border-muted/20">
+                <span className="text-sm opacity-70">Console Output</span>
+                <Terminal className="h-4 w-4 opacity-50" />
+              </div>
+              <div className="code-content">
+                <pre className="text-green-500">{output}</pre>
+              </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

@@ -60,4 +60,18 @@
   .function {
     @apply text-blue-500 dark:text-blue-400;
   }
+
+  .code-header {
+    @apply bg-muted/30;
+  }
+
+  .animate-blink {
+    @apply opacity-100;
+    animation: blink 1s step-end infinite;
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
