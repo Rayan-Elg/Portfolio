@@ -9,6 +9,8 @@
     --primary: 15 23 42;
     --secondary: 241 245 249;
     --muted: 241 245 249;
+    --gradient-start: 255 255 255;
+    --gradient-end: 241 245 249;
   }
 
   :root.dark {
@@ -17,10 +19,22 @@
     --primary: 248 250 252;
     --secondary: 30 41 59;
     --muted: 30 41 59;
+    --gradient-start: 15 23 42;
+    --gradient-end: 30 41 59;
   }
 
   html {
     @apply min-h-screen bg-base text-base;
+    background: 
+      linear-gradient(to bottom right, 
+        rgb(var(--gradient-start)), 
+        rgb(var(--gradient-end))
+      ),
+      radial-gradient(
+        circle at center,
+        rgb(var(--primary) / 0.05) 1px,
+        transparent 1px
+      ) 0 0/25px 25px;
   }
 
   body {
